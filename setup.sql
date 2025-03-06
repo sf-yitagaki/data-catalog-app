@@ -26,8 +26,8 @@ WITH available_listings AS (
     -- WHERE "is_share_imported" = true 自社で取得したデータのみである場合
 )
 SELECT 
-    PARSE_JSON("metadata"):title::STRING AS title,
-    PARSE_JSON("metadata"):description::STRING AS description
+    REGEXP_SUBSTR("metadata", '"title":"([^"]+)"', 1, 1, 'e', 1) AS title,
+    REGEXP_SUBSTR("metadata", '"description":"([^"]*)"', 1, 1, 'e', 1) AS description
 FROM available_listings;
 
 -- Step 2: 最終テーブルを作成し、埋め込みを生成
